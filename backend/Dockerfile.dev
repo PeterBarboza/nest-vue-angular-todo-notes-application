@@ -1,0 +1,9 @@
+FROM node:21-alpine
+
+WORKDIR /app
+
+COPY . /app
+
+RUN yarn
+
+CMD echo '--Slepping app for 5 seconds--'; sleep 5; yarn prisma generate; yarn prisma migrate deploy ; yarn run start:dev

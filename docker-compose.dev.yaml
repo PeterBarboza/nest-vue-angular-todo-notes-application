@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:16.1
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - first_nestjs_app_db_develop:/var/lib/postgresql
+    networks:
+      - first_nestjs_app_network_develop
+
+  api:
+    restart: always
+    ports:
+      - 3000:3000
+    build:
+      dockerfile: ./backend/Dockerfile.dev
+    environment:
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    networks:
+      - first_nestjs_app_network_develop
+
+volumes:
+  first_nestjs_app_db_develop:
+networks:
+  first_nestjs_app_network_develop:
