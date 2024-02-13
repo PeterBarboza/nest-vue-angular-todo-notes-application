@@ -24,10 +24,10 @@ function onSubmit() {
       </div>
 
       <div class="w-full flex justify-center">
-        <a class="text-cyan-600" href="/sign-in">Sign-In</a>
+        <a class="text-green-600" href="/sign-in">Sign-In</a>
       </div>
 
-      <input class="w-full bg-cyan-600 p-2 rounded-md mt-8 text-white font-bold" type="submit">
+      <input class="w-full bg-green-600 p-2 rounded-md mt-8 text-white font-bold" type="submit">
     </form>
   </div>
 </template>
