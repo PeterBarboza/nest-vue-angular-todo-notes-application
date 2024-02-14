@@ -30,6 +30,38 @@ services:
     networks:
       - first_nestjs_app_network_develop
 
+  angular-app:
+    restart: always
+    ports:
+      - 4200:4200
+    build:
+      dockerfile: ./angular-frontend/Dockerfile.dev
+    environment:
+      API_URL: ${FRONT_API_URL}
+    depends_on:
+      - db
+      - api
+    volumes:
+      - ./angular-frontend:/app
+    networks:
+      - first_nestjs_app_network_develop
+
+  vue-app:
+    restart: always
+    ports:
+      - 8080:8080
+    build:
+      dockerfile: ./vue-frontend/Dockerfile.dev
+    environment:
+      API_URL: ${FRONT_API_URL}
+    depends_on:
+      - db
+      - api
+    volumes:
+      - ./vue-frontend:/app
+    networks:
+      - first_nestjs_app_network_develop
+
 volumes:
   first_nestjs_app_db_develop:
 networks:
