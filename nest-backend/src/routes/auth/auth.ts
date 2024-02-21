@@ -4,7 +4,7 @@ import argon2 from 'argon2';
 
 import { CONFIG } from 'src/config';
 import { SignInParams, SignUpParams } from 'src/interfaces/auth';
-import { UserProvider } from 'src/user/user';
+import { UserProvider } from 'src/routes/user/user';
 
 @Injectable()
 export class AuthProvider {

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AuthProvider } from './auth';
 import { AuthController } from './auth.controller';
-import { UserProvider } from 'src/user/user';
+import { UserProvider } from 'src/routes/user/user';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
