@@ -4,7 +4,7 @@ import 'express';
 export interface UserData {
   // username?: string
   // groups?: string[]
-  id?: string;
+  id: string;
 }
 
 // export type ParsedQs = {
@@ -25,6 +25,6 @@ export interface UserData {
 
 declare module 'express' {
   export interface Request extends express.Request {
-    userData?: UserData;
+    userData: UserData;
   }
 }
