@@ -3,10 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { PrismaModule } from './prisma/prisma.module';
 
-import { TodoModule } from './routes/todo/todo.module';
-import { UserModule } from './routes/user/user.module';
-import { AuthModule } from './routes/auth/auth.module';
-import { AuthMiddleware } from './routes/auth/auth.middleware';
+import { TodoModule } from './modules/todo/todo.module';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuthMiddleware } from './modules/auth/auth.middleware';
 
 import { AppController } from './app.controller';
 
