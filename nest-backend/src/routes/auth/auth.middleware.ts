@@ -34,7 +34,11 @@ export class AuthMiddleware implements NestMiddleware {
         secret: CONFIG.jwtAccessTokenSecret,
       });
 
-      req.headers.authorization = payload.sub;
+      Object.assign(req, {
+        userData: {
+          id: payload.sub,
+        },
+      });
 
       next();
     } catch (err) {

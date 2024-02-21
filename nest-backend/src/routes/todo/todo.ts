@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Todo } from '@prisma/client';
 
-import { CreateTodoData, UpdateTodoData } from 'src/interfaces/todo';
 import { PrismaProvider } from 'src/prisma/prisma.provider';
+import { CreateTodoDTO } from './dto/create-todo.dto';
+import { UpdateTodoDTO } from './dto/update-todo.dto';
 
 @Injectable()
 export class TodoProvider {
@@ -16,7 +17,7 @@ export class TodoProvider {
   async getOne(params?: Prisma.TodoFindFirstArgs): Promise<Todo | null> {
     return await this.prisma.todo.findFirst(params);
   }
-  async create({ userId, ...data }: CreateTodoData): Promise<Todo> {
+  async create({ userId, ...data }: CreateTodoDTO): Promise<Todo> {
     return await this.prisma.todo.create({
       data: {
         ...data,
@@ -28,7 +29,7 @@ export class TodoProvider {
       },
     });
   }
-  async update(id: string, data: UpdateTodoData): Promise<null | string> {
+  async update(id: string, data: UpdateTodoDTO): Promise<null | string> {
     const result = await this.prisma.todo.update({
       where: {
         id,

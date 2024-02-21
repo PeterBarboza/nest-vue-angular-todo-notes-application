@@ -3,8 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import argon2 from 'argon2';
 
 import { CONFIG } from 'src/config';
-import { SignInParams, SignUpParams } from 'src/interfaces/auth';
 import { UserProvider } from 'src/routes/user/user';
+import { SignInDTO } from './dto/sign-in.dto';
+import { SignUpDTO } from './dto/sign-up.dto';
+import { RefreshTokenDTO } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthProvider {
@@ -13,7 +15,7 @@ export class AuthProvider {
     private jwtService: JwtService,
   ) {}
 
-  async signIn({ email, password }: SignInParams) {
+  async signIn({ email, password }: SignInDTO) {
     const result = await this.userProvider.get({
       where: {
         email,
@@ -43,7 +45,7 @@ export class AuthProvider {
       },
     };
   }
-  async signUp({ email, password }: SignUpParams) {
+  async signUp({ email, password }: SignUpDTO) {
     const result = await this.userProvider.get({
       where: {
         email,
@@ -60,7 +62,7 @@ export class AuthProvider {
 
     return await this.signIn({ email, password });
   }
-  async refreshToken(refreshToken: string) {
+  async refreshToken({ refreshToken }: RefreshTokenDTO) {
     const payload = await this.jwtService.verifyAsync(refreshToken, {
       secret: CONFIG.jwtRefreshTokenSecret,
     });

@@ -14,8 +14,8 @@ import { Request } from 'express';
 import { Todo } from '@prisma/client';
 
 import { TodoProvider } from './todo';
-import { createTodoSchema, updateTodoSchema } from 'src/dtos/todo';
-import { CreateTodoData, UpdateTodoData } from 'src/interfaces/todo';
+import { CreateTodoDTO } from './dto/create-todo.dto';
+import { UpdateTodoDTO } from './dto/update-todo.dto';
 
 @Controller('todo')
 export class TodoController {
@@ -37,22 +37,20 @@ export class TodoController {
   @Post()
   async create(
     @Req() request: Request,
-    @Body() data: Omit<CreateTodoData, 'userId'>,
+    @Body() data: CreateTodoDTO,
   ): Promise<Todo> {
-    const userId = request.headers.authorization;
-    const parsedData = createTodoSchema.parse({ ...data, userId });
+    const userId = request?.userData?.id;
 
-    return await this.todoProvider.create(parsedData as any);
+    return await this.todoProvider.create({ userId, ...data });
   }
 
   @Patch('/:id')
   async update(
     @Req() request: Request,
-    @Body() data: UpdateTodoData,
+    @Body() data: UpdateTodoDTO,
     @Param('id') id: string,
   ): Promise<null | string> {
-    const userId = request.headers.authorization;
-    const parsedData = updateTodoSchema.parse({ ...data, userId });
+    const userId = request?.userData?.id;
 
     const isOwner = await this.todoProvider.getOne({
       where: { id: id, user: { id: userId } },
@@ -63,7 +61,7 @@ export class TodoController {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
-    return await this.todoProvider.update(id, parsedData as any);
+    return await this.todoProvider.update(id, data);
   }
 
   @Delete('/:id')
@@ -71,7 +69,7 @@ export class TodoController {
     @Req() request: Request,
     @Param('id') id: string,
   ): Promise<null | string> {
-    const userId = request.headers.authorization;
+    const userId = request?.userData?.id;
 
     const isOwner = await this.todoProvider.getOne({
       where: { id: id, user: { id: userId } },
