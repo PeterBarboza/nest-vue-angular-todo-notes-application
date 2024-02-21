@@ -1,0 +1,9 @@
+FROM node:21-alpine
+
+WORKDIR /app
+
+COPY . /app
+
+RUN yarn
+
+CMD yarn vite --host 0.0.0.0
